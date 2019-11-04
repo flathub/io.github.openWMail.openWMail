@@ -1,0 +1,65 @@
+app-id: io.github.openWMail.openWMail
+base: io.atom.electron.BaseApp
+base-version: '18.08'
+runtime: org.freedesktop.Platform
+runtime-version: '18.08'
+sdk: org.freedesktop.Sdk
+command: "/app/openwmail/openWMail"
+separate-locales: false
+rename-desktop-file: openwmail.desktop
+finish-args:
+- --share=ipc
+- --socket=wayland
+- --socket=x11
+- --socket=pulseaudio
+- --share=network
+- --device=dri
+- --filesystem=xdg-download
+- --talk-name=org.freedesktop.Notifications
+modules:
+- name: openWMail
+  buildsystem: simple
+  build-commands:
+  - ar x openWMail_*.deb
+  - rm -f openWMail_*.deb
+  - tar xf data.tar.gz
+  - rm -f control.tar.gz data.tar.gz debian-binary
+  - cp -r usr/* opt/* /app
+  - for s in {32,64,128,256,512}; do
+    convert "openWMail.512x512.png" -resize "${s}" "${FLATPAK_ID}.png";
+    install -p -Dm644 "${FLATPAK_ID}.png" -t "${FLATPAK_DEST}/share/icons/hicolor/${s}x${s}/apps/";
+    done;  
+  - chmod -R a-s,go+rX,go-w /app/openwmail
+  - chmod +x /app/openwmail/openWMail
+  - desktop-file-edit --set-key=Exec --set-value='/app/openwmail/openWMail %U' --set-key=Icon --set-value=${FLATPAK_ID} /app/share/applications/openwmail.desktop
+  - install -Dm644 io.github.openWMail.openWMail.metainfo.xml /app/share/appdata/io.github.openWMail.openWMail.metainfo.xml
+  sources:
+  - type: file
+    only-arches:
+    - x86_64
+    url: https://github.com/openWMail/openWMail/releases/download/v1.0.0/openWMail_1-0-0_Linux_x86_64.deb
+    sha256: 4e9b610142398109432626f0d4578ff0349ea56663955ba74f484cc4c65a3b68
+  - type: file
+    only-arches:
+    - i386
+    url: https://github.com/openWMail/openWMail/releases/download/v1.0.0/openWMail_1-0-0_Linux_ia32.deb
+    sha256: dff9180f471569729879ce276a444156d48625aad7884cb98ea66f8b2960cafc
+  - type: file
+    path: io.github.openWMail.openWMail.metainfo.xml
+  - type: file
+    path: openWMail.512x512.png
+  - type: file
+    url: https://github.com/openWMail/openWMail/archive/v1.0.0.tar.gz
+    sha256: 445f54c02e3b83a5e5997eede34b3c969a67b3bd15f5f921b53e626f2777ebde
+  modules:
+  - name: ImageMagick
+    config-opts:
+    - "--disable-static"
+    - "--disable-docs"
+    - "--with-pic"
+    cleanup:
+    - "*"
+    sources:
+    - type: archive
+      url: https://github.com/ImageMagick/ImageMagick/archive/7.0.8-65.tar.gz
+      sha256: 14afaf722d8964ed8de2ebd8184a229e521f1425e18e7274806f06e008bf9aa7

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.openWMail.openWMail</id>
+  <name>openWMail</name>
+  <project_license>MPL-2.0</project_license>
+  <developer_name>openWMail</developer_name>
+  <summary>Open Source Desktop Client for Gmail And Google Inbox</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <url type="homepage">https://openwmail.github.io</url>
+  <launchable type="desktop-id">io.github.openWMail.openWMail.desktop</launchable>
+  <update_contact>https://github.com/openWMail/openWMail/issues</update_contact>
+  <description>
+    <p>openWMail the free and open-source desktop client for Gmail and Google Inbox</p>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image type="source">https://openwmail.github.io/images/intro.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.0" date="2017-05-05"/>
+  </releases>
+  <content_rating type="oars-1.1">
+    <content_attribute id="social-chat">intense</content_attribute>
+    <content_attribute id="social-audio">intense</content_attribute>
+    <content_attribute id="social-contacts">intense</content_attribute>
+  </content_rating>
+</component>
